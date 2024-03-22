@@ -1,15 +1,20 @@
-# Dockerfile
+# Use official Node.js image as base
+FROM node:14-alpine
 
-FROM node:14
-
+# Set working directory inside the container
 WORKDIR /usr/src/app
 
+# Copy package.json and package-lock.json files
 COPY package*.json ./
 
-RUN npm install
+# Install dependencies
+RUN npm install --production
 
+# Copy application files
 COPY . .
 
-EXPOSE 3000
+# Expose port 5000 (or whichever port your application runs on)
+EXPOSE 5000
 
-CMD [ "npm", "start" ]
+# Command to run the application
+CMD ["npm", "start"]

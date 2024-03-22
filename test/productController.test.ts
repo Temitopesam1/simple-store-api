@@ -1,7 +1,7 @@
 import request from 'supertest';
-import app from '../index';
-import Product from '../models/product';
-import { authenticateToken } from '../middlewares/auth';
+import app from '../src/index';
+import Product from '../src/models/product';
+import { authenticateToken } from '../src/middlewares/auth';
 
 // Mocking Product model functions
 jest.mock('../models/Product');

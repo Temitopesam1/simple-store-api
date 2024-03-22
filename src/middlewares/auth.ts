@@ -25,7 +25,6 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
         req.id = decoded.id;
         next();
     } catch (error) {
-        console.error('Error authenticating token:', error);
         return res.status(401).send({ error: 'Authentication failed' });
     }
 };

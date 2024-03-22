@@ -17,7 +17,7 @@ router.get('/logout', authenticateToken, async (req: Request, res: Response) => 
 router.get('/', authenticateToken, async (req: Request, res: Response) => {
     await userController.getUser(req, res);
 });
-router.post('/update', authenticateToken, async (req: Request, res: Response) => {
+router.put('/update', authenticateToken, async (req: Request, res: Response) => {
     await userController.updateUser(req, res);
 });
 router.post('/delete', authenticateToken, async (req: Request, res: Response) => {

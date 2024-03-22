@@ -46,14 +46,14 @@ class Users {
         try {
             const { id } = req;
             const { body } = req;
-            const user = await User.findByIdAndUpdate({ id }, body, { new: true });
+            const user = await User.findByIdAndUpdate(id, body, { new: true });
             if (!user) {
                 res.status(404).json({ message: 'User not found' });
                 return;
             }
             res.status(200).json(user);
         } catch (error: any) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error });
         }
     }
 
@@ -83,8 +83,8 @@ class Users {
 
     logoutUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            req.user.tokens = [];
-            await req.user.save();
+            const { id } = req;
+            await User.findByIdAndUpdate(id, { tokens: [] });
             res.status(200).send("User Logged Out!");
         } catch (error: any) {
             res.status(500).json({ message: error.message });

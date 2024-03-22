@@ -3,7 +3,7 @@ dotenv.config({ path: "./config/.env"});
 
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import connectDB from './config/db';
+import connectDB from '../config/db';
 import productRoutes from './routes/productRoutes';
 import userRoutes from './routes/userRoutes';
 import { authenticateToken } from './middlewares/auth';
