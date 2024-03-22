@@ -6,7 +6,7 @@ const router = express.Router();
 const productController = new Products();
 
 router.post('/create', async (req: Request, res: Response) => {
-  await productController.createProduct(req, res);
+  return await productController.createProduct(req, res);
 });
 router.get('/all', async (req: Request, res: Response) => {
   await productController.getProducts(req, res);

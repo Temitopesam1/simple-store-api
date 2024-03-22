@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 
 
 
+
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,7 +17,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
 
         const decoded: any = jwt.verify(token, JWT_SECRET);
 
-        const user = await User.findOne({ id: decoded._id, 'tokens.token': token });
+        const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
 
         if (!user) {
             res.status(401).send({ error: 'User not found or token is invalid' });
