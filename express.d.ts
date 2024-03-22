@@ -1,8 +1,7 @@
-import { IUser } from './models/user';
-
+import { Types } from 'mongoose';
 
 declare module 'express' {
     interface Request {
-        user?: IUser | null;
+        id?: Types.ObjectId;
     }
 }

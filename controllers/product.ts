@@ -7,7 +7,7 @@ class Products {
     createProduct = async (req: Request, res: Response): Promise<void> => {
         try {
             const { name, description, price } = req.body;
-            const product: IProduct = new Product({ name, description, price, creator: req.user._id });
+            const product: IProduct = new Product({ name, description, price, creator: req.id });
             await product.save();
             res.status(201).json(product);
         } catch (error: any) {

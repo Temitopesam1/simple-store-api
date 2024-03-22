@@ -17,16 +17,16 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
 
         const decoded: any = jwt.verify(token, JWT_SECRET);
 
-        const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
+        const user = await User.findOne({ _id: decoded.id, 'tokens.token': token });
 
         if (!user) {
-            res.status(401).send({ error: 'User not found or token is invalid' });
+            return res.status(401).send({ error: 'User not found or token is invalid' });
         }
-        req.user = user;
+        req.id = decoded.id;
         next();
     } catch (error) {
         console.error('Error authenticating token:', error);
-        res.status(401).send({ error: 'Authentication failed' });
+        return res.status(401).send({ error: 'Authentication failed' });
     }
 };
 

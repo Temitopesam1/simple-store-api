@@ -16,8 +16,8 @@ class Users {
 
     getUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { _id } = req.user;
-            const user = await User.findById(_id);
+            const { id } = req;
+            const user = await User.findById(id);
             if (!user) {
                 res.status(404).json({ message: 'User not found' });
                 return;
@@ -30,8 +30,8 @@ class Users {
 
     deleteUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { _id } = req.user;
-            const user = await User.findByIdAndDelete(_id);
+            const { id } = req;
+            const user = await User.findByIdAndDelete(id);
             if (!user) {
                 res.status(404).json({ message: 'User not found' });
                 return;
@@ -44,9 +44,9 @@ class Users {
 
     updateUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { _id } = req.user;
+            const { id } = req;
             const { body } = req;
-            const user = await User.findByIdAndUpdate({ _id }, body, { new: true });
+            const user = await User.findByIdAndUpdate({ id }, body, { new: true });
             if (!user) {
                 res.status(404).json({ message: 'User not found' });
                 return;
