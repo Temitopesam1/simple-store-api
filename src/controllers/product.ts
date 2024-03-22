@@ -46,9 +46,9 @@ class Products {
 
     updateProduct = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { name } = req.params;
+            const { params } = req;
             const { body } = req;
-            const product = await Product.findOneAndUpdate({ name }, body, { new: true });
+            const product = await Product.findOneAndUpdate(params, body, { new: true });
             res.status(200).json(product);
         } catch (error: any) {
             res.status(500).json({ message: error.message });
