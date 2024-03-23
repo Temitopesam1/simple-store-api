@@ -22,7 +22,8 @@ class Users {
                 res.status(404).json({ message: 'User not found' });
                 return;
             }
-            res.status(200).json(user);
+            const { name, email } = user;
+            res.status(200).json({ name, email });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
@@ -36,7 +37,8 @@ class Users {
                 res.status(404).json({ message: 'User not found' });
                 return;
             }
-            res.status(200).json(user);
+            const { name, email } = user;
+            res.status(200).json({ name, email });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
@@ -51,7 +53,8 @@ class Users {
                 res.status(404).json({ message: 'User not found' });
                 return;
             }
-            res.status(200).json(user);
+            const { name, email } = user;
+            res.status(200).json({ name, email });
         } catch (error: any) {
             res.status(500).json({ message: error });
         }
@@ -62,7 +65,7 @@ class Users {
             const { email, password } = req.body;
             
             // Find the user by credentials
-            const user = await User.findByCredentials(email, password);
+            const user = User.findByCredentials(email, password);
     
             // Check if user exists
             if (!user) {

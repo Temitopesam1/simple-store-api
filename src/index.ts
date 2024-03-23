@@ -19,6 +19,7 @@ app.use(cors());
 connectDB();
 
 // Routes
+app.get('', (req: Request, res: Response)=>{return res.send("The is the API for a Simple Store Manager")});
 app.use('/api/product', authenticateToken, productRoutes);
 app.use('/api/user', userRoutes);
 
