@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-declare module Express {
+declare module 'express' {
     interface Request {
         id?: Types.ObjectId;
     }
