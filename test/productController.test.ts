@@ -1,46 +1,83 @@
-import request from 'supertest';
-import app from '../src/index';
+import Products from '../src/controllers/product';
+import { Request, Response } from 'express';
 import Product from '../src/models/product';
-import { authenticateToken } from '../src/middlewares/auth';
 
-// Mocking Product model functions
-jest.mock('../models/Product');
-// Mocking authentication middleware
-jest.mock('../middleware/authMiddleware');
+const productController = new Products();
+
+
+jest.mock('../src/models/product');
 
 describe('Product Controller', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('createProduct should create a new product', async () => {
+    const req = {
+      body: {
+        name: 'Test Product',
+        description: 'Test Description',
+        price: 10
+      }
+    } as Request;
+
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn()
+    } as unknown as Response;
+
+    // Mock save function of Product model
+    const saveMock = jest.fn().mockResolvedValue({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price
     });
 
-    it('should create a new product', async () => {
-        // Mock authenticated request
-        authenticateToken.mockImplementation((req: { user: { _id: string; }; }, res: any, next: () => void) => {
-            req.user = { _id: 'mockUserId' };
-            next();
-        });
+    Product.prototype.save = saveMock;
 
-        const mockProduct = { name: 'Test Product', description: 'Test Description', price: 10 };
-        Product.prototype.save.mockResolvedValue(mockProduct);
+    await productController.createProduct(req, res);
 
-        const res = await request(app)
-            .post('/api/product/create')
-            .send(mockProduct);
+    expect(saveMock).toHaveBeenCalledTimes(1);
+    expect(saveMock).toHaveBeenCalledWith();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price
+    });
+  });
+  test('updateProduct should update existing product', async () => {
+    const req = {
+      body: {
+        name: 'Test Product',
+        description: 'Test Description',
+        price: 10
+      }
+    } as Request;
 
-        expect(res.status).toBe(201);
-        expect(res.body).toEqual(mockProduct);
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn()
+    } as unknown as Response;
+
+    // Mock save function of Product model
+    const saveMock = jest.fn().mockResolvedValue({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price
     });
 
-    it('should get all products', async () => {
-        const mockProducts = [{ name: 'Product1', description: 'Description1', price: 10 }];
-        Product.find.mockResolvedValue(mockProducts);
+    Product.prototype.save = saveMock;
 
-        const res = await request(app)
-            .get('/api/product/all');
+    await productController.updateProduct(req, res);
 
-        expect(res.status).toBe(200);
-        expect(res.body).toEqual(mockProducts);
+    expect(saveMock).toHaveBeenCalledTimes(1);
+    expect(saveMock).toHaveBeenCalledWith();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price
     });
-
-    // Add other test cases similarly...
+  });
 });
